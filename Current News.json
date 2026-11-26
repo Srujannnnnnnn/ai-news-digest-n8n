@@ -1,0 +1,302 @@
+{
+  "name": "Current News",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 10
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -368,
+        16
+      ],
+      "id": "0020487a-41ee-464e-afa8-d4b64436eab5",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://aibusiness.com/rss.xml",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        -144,
+        -176
+      ],
+      "id": "348d6318-7804-4329-a796-bdc30d1fc7ec",
+      "name": "RSS Read"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "include": "specifiedFields",
+        "fieldsToInclude": "title, link, , contentSnippet",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        304,
+        16
+      ],
+      "id": "6bc827f3-ca98-4c99-b823-022c9dbdd4df",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "sendTo": "h087srujansp@gmail.com",
+        "subject": "Today's AI News",
+        "emailType": "text",
+        "message": "={{ $json.text }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        864,
+        16
+      ],
+      "id": "e0a69009-d539-44f1-8635-aae33695f227",
+      "name": "Send a message",
+      "webhookId": "1b8920fb-d923-47ee-9697-5c935b9245fb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "2aZZg91r8DFPezYF",
+          "name": "Gmail account 7655"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://openrss.org/feed/techcrunch.com",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        -144,
+        16
+      ],
+      "id": "77ce54a1-60e0-44a8-a72f-bd74cced7a78",
+      "name": "RSS Read1"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        80,
+        0
+      ],
+      "id": "b532ae2f-2374-4aea-be5c-71251a661f12",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "engine",
+              "value": "google_event_details"
+            },
+            {
+              "name": "event_token",
+              "value": "EqIICuIHQUppVDR0SjRUa2NneFN5cVRRdVN6ODdxZ1pPRGlNeVFXZEVLd21HNS0xNzdUTU01WVBFMUdKcXpzRUcyOTVoN0FMTGthcTBobW9UbEVrcGxZaWpnMnpLLXQxcW5xaXlMRXBscENVUzVwZUxRTG5DeVBWOTdYeUdSTU9PQnMyZlA0ODdyLTlwY1ZMVm5kcHZjZFFJVXJZWnB1N2ZIZ3BoTGQ3ZzRUTFRwOXRSTDVIMjlmdnBEaGZpYlF1bG9rOEtEQjd3TlZTeVl3VGFXYlVHMjE3aUZTZlJyT2ZTektPU19vUGZ3VHlrOW8ydTRTRTMzQ0hkRVVyOXZHaUxIc2N3UUJ0djFqcWdVcDI1TGRud3p5ZERBcXdOYlBQZGVzOFFlSms2aEpINHZWb1RrWFhqQk9Bb0VFSFMzUkRCYVM1Q3g3UThjTVJENnNkMFdzUWNCWEJ4S0NOOUdoZWhTaUpSdThNU0JTemJGQnhBUGFWQVFKaXpGNERXbTNhdXowMFJ0cTBITkNXem5KcTRsZllxekFCMWZlNW1TVmhIN0VjeXNzN1ZBVHo3RGF5MHFKa2dpQ21OSVlhaFVtenMyOVh1aUpVWEdzQW9JSDhIc0NYRU5YQl9nUks5YjBnSGJTaGFpN1VHaE5kb2U4dHdVRE41eXBVbGVYVUpUaG5EZ0F5Zll5SzBXcHdPZkV2UGx0ZDAxVFZKc3JfWkxvMERpX0kxODFhVlBLNlg2OGNIdkFfV1pEUU9yYzVpUEFLVVQ0TTFpS0U0MUI3bEhaX3NfbkY5V2dGUFZVZFlwaFNidlRtWlRXbG1pcHZiaWVRWTJqRXQ2SWdyZUFQVG1HWnJvZUhfcWthZ3ZJc3NCU2VvLWxHTjZDeWVrdkhiZmZKdmhuazZMVWRVWmRQVUFULVZlUDZXVy1HUUhycHRDTlBYODVjZzVfNndRNVNPOGljbmY1WFNEX1FwMWRZdGxqQjMxbXFqVEl5WXg2LWM1OU9zR1BlWnl0RDY1WmU3ZFdIY3hPQndQdE1ZcHRtaExTQ3c3d195akF3MWVMVHI3V3pZa2NycWJjVTlZWUJCaWNueG41SmZDYmtzOV94R2lQNHlncXRnbFZZcFI2YjNJTmhmVkNhdTVsV2hub1ZOeVludkxUSWZtSlUybW82TUllY2tST1RfZWthUnlkNHZ0SnMxTmhZeGN4MTdXcTVWNlFJczFDTmdWWU5JSVMtRXA5cUJFUGNBbEJhSC1JLUM2QXl3LS0xOFNLVzBEc0IyTml6ZXhTVzN0aTVtZDBDOEtZQnBOUGpwMkxOT1lmU1ZqSUNFSk83NldpdxIXMmNHTWFzbU5LZk9icHRRUGtjbUtnQTQaIkFEc3I5ZlFldFNqcnFWeHB1LVdOZlRZWUVGeUJFN182NHc"
+            },
+            {
+              "name": "nearby_places",
+              "value": "true"
+            },
+            {
+              "name": "similar_events",
+              "value": "true"
+            },
+            {
+              "name": "search_results",
+              "value": "true"
+            },
+            {
+              "name": "api_key",
+              "value": "abbbe0b05779ab029153951495b758dacb62f51ce4daefe598e8052f59ed5602"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -144,
+        208
+      ],
+      "id": "56cfcfba-40fe-4d5e-a998-ab59c7b4b2df",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.data }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You are an AI newsletter assistant creating a daily intelligence report from multiple categories.\n\nUse only the provided items. Do not invent content.\n\nOrganize the provided items by category and Format exactly like this: \n\nHi there,\nHere's your Tech Brief: \n\n#### AI NEWS HIGHLIGHTS\n\n[5 most important AI developments]\nFor each AI-related item, output:\nHEADLINE IN ALL CAPS\nSummary in 1-2 sentences.\nLink:  \n\n#### TECHNOLOGY UPDATES\n\n[Latest broader technology-related developments from major tech sources]\nFor each broader technology-related item, output:\nHEADLINE IN ALL CAPS\nSummary in 1-2 sentences.\nLink:  \n\n#### UPCOMING AI EVENTS\n\n[List events with date, location, description]\nIf no events found: \"No AI events scheduled this week\" \n\nFor each Event Item\nHEADLINE IN ALL CAPS\nSummary in 1-2 sentences.\nLink:  \n\nKeep the summaries professional, concise, and easy to read. \n\nSign off as \"Your AI Intelligence Team\" \n\n\n"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        512,
+        16
+      ],
+      "id": "869d5efe-1297-4055-92e4-87c23cabed6a",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        448,
+        224
+      ],
+      "id": "33875965-3ac2-4b0f-b277-0f17e75d84f6",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ZeRp2joDjkdFOcoF",
+          "name": "Google Gemini(PaLM) Api account 9044"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "RSS Read1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "e03f3336-c1e3-4278-b262-3ca2026503ef",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "969257b09ad2942bbaff2e2288304f4969030574d109cdeca05bf11f630884df"
+  },
+  "id": "FUxu6ZdRbfSYgn06",
+  "tags": []
+}
